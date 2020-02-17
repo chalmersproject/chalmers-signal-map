@@ -1,0 +1,43 @@
+{
+  "name": "leaflet-realtime",
+  "version": "2.2.0",
+  "description": "Show realtime updated GeoJSON in Leaflet",
+  "main": "src/L.Realtime.js",
+  "directories": {
+    "example": "examples",
+    "dist": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/perliedman/leaflet-realtime.git"
+  },
+  "scripts": {
+    "prepublish": "grunt",
+    "test": "browserify test/L.Realtime | tape-run -b electron | faucet"
+  },
+  "keywords": [
+    "leaflet",
+    "realtime"
+  ],
+  "author": {
+    "name": "Per Liedman",
+    "email": "per@liedman.net"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/perliedman/leaflet-realtime/issues"
+  },
+  "homepage": "https://github.com/perliedman/leaflet-realtime",
+  "devDependencies": {
+    "browserify": "^16.5.0",
+    "faucet": "0.0.1",
+    "grunt": "^1.0.4",
+    "grunt-browserify": "^5.3.0",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-uglify": "^4.0.1",
+    "leaflet": "^1.5.1",
+    "tape": "^4.10.1",
+    "tape-run": "^6.0.1"
+  },
+  "dependencies": {}
+}
