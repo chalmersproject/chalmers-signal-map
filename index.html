@@ -26,6 +26,17 @@
        attribution: '&copy; Chalmers Map!'
     }).addTo(mymap);
     mymap.setView([43.6492, -79.3995], 17);
-    var marker = L.marker([43.6492, -79.3995]).addTo(mymap);
+    var circle = L.circle([43.6492, -79.3995], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 10
+    }).addTo(mymap);
+    circle.bindPopup("I am a circle.");
+
+    //// TODO: Pull in JSON data
+    //// TODO: Set lat, lon of st felix center circle
+    //// TODO: Set color of circle to st felix center occupacy
+    //// TODO: Set Shelter Properties on circle's popup
   </script>
 </html>
