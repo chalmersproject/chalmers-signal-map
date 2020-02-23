@@ -26,17 +26,42 @@
        attribution: '&copy; Chalmers Map!'
     }).addTo(mymap);
     mymap.setView([43.6492, -79.3995], 17);
+
+
+
+    //// TODO: Pull in JSON data
+     // xmlhttp.onreadystatechange = function() {
+     //   if (this.readyState == 4 && this.status == 200) {
+     //     // document.getElementById("demo").innerHTML = myObj.name;
+     //   }
+     // };
+     function GetData(url)
+     {
+       var xmlhttp = new XMLHttpRequest();
+       xmlhttp.open("GET", url, false);
+       xmlhttp.send(null);
+       return xmlhttp.responseText;
+     }
+     var myObj = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
+     console.log(myObj);
+     console.log("Shelter Occupancy: " + myObj.st_felix_augusta.Service_Status.Firecode_Space.Firecode_Occupancy);
+
+    //// TODO: Set lat, lon of st felix center circle
+    //// TODO: Set color of circle to st felix center occupacy
+    //// TODO: Set Shelter Properties on circle's popup, update on timer
+    
     var circle = L.circle([43.6492, -79.3995], {
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5,
       radius: 10
     }).addTo(mymap);
-    circle.bindPopup("I am a circle.");
-
-    //// TODO: Pull in JSON data
-    //// TODO: Set lat, lon of st felix center circle
-    //// TODO: Set color of circle to st felix center occupacy
-    //// TODO: Set Shelter Properties on circle's popup
+    var occupancy  = myObj
+                     .st_felix_augusta
+                     .Service_Status
+                     .Firecode_Space
+                     .Firecode_Occupancy;
+    circle.bindPopup("" + occupancy);
+    console.log(occupancy);
   </script>
 </html>
