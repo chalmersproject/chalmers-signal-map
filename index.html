@@ -49,19 +49,24 @@
     //// TODO: Set lat, lon of st felix center circle
     //// TODO: Set color of circle to st felix center occupacy
     //// TODO: Set Shelter Properties on circle's popup, update on timer
-    
+
     var circle = L.circle([43.6492, -79.3995], {
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5,
       radius: 10
     }).addTo(mymap);
-    var occupancy  = myObj
-                     .st_felix_augusta
-                     .Service_Status
-                     .Firecode_Space
-                     .Firecode_Occupancy;
-    circle.bindPopup("" + occupancy);
-    console.log(occupancy);
+
+    var interval = setInterval(function()
+    {
+      var myObj = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
+      var occupancy  = myObj
+                       .st_felix_augusta
+                       .Service_Status
+                       .Firecode_Space
+                       .Firecode_Occupancy;
+      circle.bindPopup("" + occupancy);
+      console.log(occupancy);
+    }, 1000);
   </script>
 </html>
