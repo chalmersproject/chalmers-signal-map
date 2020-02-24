@@ -49,14 +49,19 @@
     //// TODO: Set lat, lon of st felix center circle
     //// TODO: Set color of circle to st felix center occupacy
     //// TODO: Set Shelter Properties on circle's popup, update on timer
-
-    var circle = L.circle([43.6492, -79.3995], {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: 10
-    }).addTo(mymap);
-
+    // TODO: for each shelter in firebase json, create shelter object
+    var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
+    // for each ( var shelter in firebase_data)
+    // {
+      var circle = L.circle([43.6492, -79.3995], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 10
+      }).addTo(mymap);
+    // }
+    //run this code in an interval loop, once per second
+    //interval time defined at bottom
     var interval = setInterval(function()
     {
       var myObj = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
@@ -68,5 +73,27 @@
       circle.bindPopup("" + occupancy);
       console.log(occupancy);
     }, 1000);
+    //function for cycling through HSV hex values from this stack overflow
+    // https://stackoverflow.com/questions/34759048/cycling-through-rgb-colors-in-hex
+    /* Please keep in mind that this function is just an example.
+    You can modify it to create different palette schemes. */
+    var tot = 800; /* total amount of blocks */
+    var num = Math.pow(tot, 1/3); /* amount of blocks in one axis */
+    var interval = parseInt(255 / num); /* color diff step */
+    var cont = document.getElementById("container");
+    var tmp = 0;
+    for (i = 0; i < num; i++) {
+      for (j = 0; j < num; j++) {
+        for (k = 0; k < num; k++) {
+          /* creates block, add styled class and set color */
+          var block = document.createElement("div");
+          block.className = "foo";
+          block.style.backgroundColor = "rgb(" + (i * interval)   +   ", " + (j * interval) + ", " + (k * interval) + ")";
+          cont.appendChild(block);
+          /* i - red, j - green, k - blue */
+          tmp++;
+        }
+      }
+    }
   </script>
 </html>
