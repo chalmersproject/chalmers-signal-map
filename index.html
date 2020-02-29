@@ -25,16 +25,11 @@
 	     maxZoom: 20,
        attribution: '&copy; Chalmers Map!'
     }).addTo(mymap);
+
+    // sets default map view to above st felix augusta
     mymap.setView([43.6492, -79.3995], 17);
 
-
-
      // TODO: Pull in JSON data
-     // xmlhttp.onreadystatechange = function() {
-     //   if (this.readyState == 4 && this.status == 200) {
-     //     // document.getElementById("demo").innerHTML = myObj.name;
-     //   }
-     // };
      function GetData(url)
      {
        var xmlhttp = new XMLHttpRequest();
@@ -43,38 +38,39 @@
        return xmlhttp.responseText;
      }
 
-    //// TODO: Set lat, lon of st felix center circle
-    //// TODO: Set color of circle to st felix center occupacy
-    //// TODO: Set Shelter Properties on circle's popup, update on timer
     // TODO: for each shelter in firebase json, create shelter object
     var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
     var i = 0;
-    var data_array = Object.keys(firebase_data);
-    for ( var i = 0; i < data_array.length; i++ )
+    // convert firebase_data into array of length equal to number of shelters in the database
+    var firebase_length = Object.keys(firebase_data);
+    for ( var i = 0; i < firebase_length.length; i++ )
     {
-        var shelter = data_array[i];
+        var shelter_name = firebase_length[i];
         console.log(firebase_data);
-        shelter = Object.keys(shelter);
-        console.log(shelter);
-        console.log(shelter);
-        // {
-        // circle : L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
-          // color: 'rgb(255,0,0)',
-          // fillColor: '#f03',
-          // fillOpacity: 0.5,
-          // radius: 10
-        // }).addTo(mymap)
+        /* function that :
+            1. draws point on map
+            2. adds blurb to map with :
+              1. friendly name
+              2. contact information
+              3. populations they serve
+              4! firecode Occupancy / Capacity
+              5! Meal Status
+              6. Bed Occupancy / Capacity
+        */
+
+        var shelter = firebase_data[shelter_name];
+        L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
+          color: 'rgb(255,0,0)',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 10
+        }).addTo(mymap)
     };
 
+    //// TODO: Set lat, lon of st felix center circle
+    //// TODO: Set color of circle to st felix center occupacy
+    //// TODO: Set Shelter Properties on circle's popup, update on timer
 
-    // var circle = L.circle([43.6492, -79.3995], {
-      // color: 'rgb(255,0,0)',
-      // fillColor: '#f03',
-      // fillOpacity: 0.5,
-      // radius: 10
-    // }).addTo(mymap);
-    //run this code in an interval loop, once per second
-    //interval time defined at bottom
     var interval = setInterval(function()
     {
       var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
@@ -84,6 +80,7 @@
                        .Firecode_Space
                        .Firecode_Occupancy;
     }, 1000);
+
     //function for cycling through HSV hex values from this stack overflow
     // https://stackoverflow.com/questions/34759048/cycling-through-rgb-colors-in-hex
     /* Please keep in mind that this function is just an example.
