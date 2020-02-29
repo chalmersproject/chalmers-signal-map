@@ -10,7 +10,14 @@
   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
   crossorigin=""></script>
     <style media="screen">
-      #mapid { height: 90vh; }
+      * {
+        magin: 0;
+        padding: 0;
+      }
+      #mapid
+      {
+        height: 98vh;
+      }
     </style>
 
     <title>chalmers map</title>
@@ -38,6 +45,35 @@
        return xmlhttp.responseText;
      }
 
+     function map_occupancy_to_color(occupacy, capacity)
+     {
+       //function for cycling through HSV hex values from this stack overflow
+       // https://stackoverflow.com/questions/34759048/cycling-through-rgb-colors-in-hex
+       /* Please keep in mind that this function is just an example.
+       You can modify it to create different palette schemes. */
+       var tot = 800; /* total amount of blocks */
+       var num = Math.pow(tot, 1/3); /* amount of blocks in one axis */
+       var interval = parseInt(255 / num); /* color diff step */
+       var tmp = 0;
+       for (i = 0; i < num; i++) {
+         for (j = 0; j < num; j++) {
+           for (k = 0; k < num; k++) {
+             /* creates block, add styled class and set color */
+             return "rgb(" + (i * interval)   +   ", " + (j * interval) + ", " + (k * interval) + ")";
+             /* i - red, j - green, k - blue */
+             tmp++;
+           }
+         }
+       }
+     }
+
+
+   /* main script starts here */
+   var interval = setInterval(function()
+   {
+    }, 1000);
+
+    //// TODO: Set lat, lon of st felix center circle
     // TODO: for each shelter in firebase json, create shelter object
     var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
     var i = 0;
@@ -45,63 +81,43 @@
     var firebase_length = Object.keys(firebase_data);
     for ( var i = 0; i < firebase_length.length; i++ )
     {
-        var shelter_name = firebase_length[i];
-        console.log(firebase_data);
-        /* function that :
-            1. draws point on map
-            2. adds blurb to map with :
-              1. friendly name
-              2. contact information
-              3. populations they serve
-              4! firecode Occupancy / Capacity
-              5! Meal Status
-              6. Bed Occupancy / Capacity
-        */
+      var shelter_name = firebase_length[i];
+      console.log(firebase_data);
+      /* function that :
+          1. draws point on map
+          2. adds blurb to map with :
+            1. friendly name
+            2. contact information
+            3. populations they serve
+            4! firecode Occupancy / Capacity
+            5! Meal Status
+            6. Bed Occupancy / Capacity
+      */
 
-        var shelter = firebase_data[shelter_name];
-        L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
-          color: 'rgb(255,0,0)',
-          fillColor: '#f03',
-          fillOpacity: 0.5,
-          radius: 10
-        }).addTo(mymap)
-    };
+      var shelter = firebase_data[shelter_name];
+      var shelter_circle =  L.circle([shelter.Shelter_Properties.latitude,  shelter.Shelter_Properties.longitude],
+      {
+        color: 'rgb(255,255,255)',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 10
+      }).addTo(mymap);
 
-    //// TODO: Set lat, lon of st felix center circle
+      shelter_circle.bindPopup(
+        ""
+        + shelter.Shelter_Contact.friendly_name
+        + "</br>"
+        + "</br>" +   shelter.Service_Status.Firecode_Space.Firecode_Occupancy
+        + "    " + "/" + "    "
+        + shelter.Service_Status.Firecode_Space.Firecode_Capacity
+        + "</br>"
+        );
+      };
     //// TODO: Set color of circle to st felix center occupacy
     //// TODO: Set Shelter Properties on circle's popup, update on timer
 
-    var interval = setInterval(function()
-    {
-      var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
-      var occupancy  = firebase_data
-                       .st_felix_augusta
-                       .Service_Status
-                       .Firecode_Space
-                       .Firecode_Occupancy;
-    }, 1000);
 
-    //function for cycling through HSV hex values from this stack overflow
-    // https://stackoverflow.com/questions/34759048/cycling-through-rgb-colors-in-hex
-    /* Please keep in mind that this function is just an example.
-    You can modify it to create different palette schemes. */
-    var tot = 800; /* total amount of blocks */
-    var num = Math.pow(tot, 1/3); /* amount of blocks in one axis */
-    // var interval = parseInt(255 / num); /* color diff step */
-    // var cont = document.getElementById("container");
-    // var tmp = 0;
-    // for (i = 0; i < num; i++) {
-      // for (j = 0; j < num; j++) {
-        // for (k = 0; k < num; k++) {
-          // /* creates block, add styled class and set color */
-          // var block = document.createElement("div");
-          // block.className = "foo";
-          // block.style.backgroundColor = "rgb(" + (i * interval)   +   ", " + (j * interval) + ", " + (k * interval) + ")";
-          // cont.appendChild(block);
-          // /* i - red, j - green, k - blue */
-          // tmp++;
-        // }
-      // }
-    // }
+
+
   </script>
 </html>
