@@ -97,7 +97,7 @@
       var shelter = firebase_data[shelter_name];
       var shelter_circle =  L.circle([shelter.Shelter_Properties.latitude,  shelter.Shelter_Properties.longitude],
       {
-        color: 'rgb(255,255,255)',
+        color: 'rgb(255,0,0)',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: 10
@@ -105,9 +105,10 @@
 
       shelter_circle.bindPopup(
         ""
+        + "<h3>"
         + shelter.Shelter_Contact.friendly_name
-        + "</br>"
-        + "</br>" +   shelter.Service_Status.Firecode_Space.Firecode_Occupancy
+        + "</h3>"
+        + "<h4>Occupancy</h4>" +   shelter.Service_Status.Firecode_Space.Firecode_Occupancy
         + "    " + "/" + "    "
         + shelter.Service_Status.Firecode_Space.Firecode_Capacity
         + "</br>"
