@@ -25,6 +25,7 @@
 </body>
 <script type="text/javascript">
   var mymap = L.map('mapid').setView([43.6492, -79.3995], 17);
+  var shelter_circles = [];
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
@@ -52,7 +53,33 @@
 
 
   /* main script starts here */
-  var interval = setInterval(function() {}, 1000);
+  var interval = setInterval(function() {
+    var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
+    var firebase_length = Object.keys(firebase_data);
+
+    for(var i = 0; i < shelter_circles.length; i++) {
+      var shelter_name = firebase_length[i];
+      var new_shelter = firebase_data[shelter_name];
+      var shelter_circle = shelter_circles[i];
+
+      shelter_circle.bindPopup(
+        "" +
+        "<h3>" +
+        new_shelter.Shelter_Contact.friendly_name +
+        "</h3>" +
+        "<h4>Occupancy</h4>" + new_shelter.Service_Status.Firecode_Space.Firecode_Occupancy +
+        "    " + "/" + "    " +
+        new_shelter.Service_Status.Firecode_Space.Firecode_Capacity +
+        "</br>"
+
+      );
+      var circle_color = map_occupancy_to_color(new_shelter.Service_Status.Firecode_Space.Firecode_Occupancy, new_shelter.Service_Status.Firecode_Space.Firecode_Capacity);
+      circle_color = "rgb(" + circle_color[0] + "," + 0  + "," + circle_color[1] +  ")";
+
+      shelter_circle.setStyle({color: circle_color, fillColor: circle_color});
+
+    }
+  }, 1000);
 
   var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
   var i = 0;
@@ -75,12 +102,15 @@
     var shelter = firebase_data[shelter_name];
     var circle_color = map_occupancy_to_color(shelter.Service_Status.Firecode_Space.Firecode_Occupancy, shelter.Service_Status.Firecode_Space.Firecode_Capacity);
     circle_color = "rgb(" + circle_color[0] + "," + 0  + "," + circle_color[1] +  ")";
+
+
     var shelter_circle = L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
       color: circle_color,
       fillColor: circle_color,
       fillOpacity: 0.5,
       radius: 10
     }).addTo(mymap);
+    shelter_circles.push(shelter_circle);
 
     shelter_circle.bindPopup(
       "" +
