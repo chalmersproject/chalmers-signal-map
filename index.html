@@ -74,7 +74,7 @@
 
     var shelter = firebase_data[shelter_name];
     var circle_color = map_occupancy_to_color(shelter.Service_Status.Firecode_Space.Firecode_Occupancy, shelter.Service_Status.Firecode_Space.Firecode_Capacity);
-    circle_color = "rgb(" + circle_color[0] + "," + circle_color[1] + "," + 0 + ")";
+    circle_color = "rgb(" + circle_color[0] + "," + 0  + "," + circle_color[1] +  ")";
     var shelter_circle = L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
       color: circle_color,
       fillColor: circle_color,
