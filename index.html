@@ -29,22 +29,18 @@
   <div id="mapid"></div>
 </body>
 <script type="text/javascript">
-  /*var Stadia_AlidadeSmoothDark = L.tileLayer('https://  tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/ {y}{r}.png', {
-	   maxZoom: 20,
-	    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia  Maps</a>, &copy; <a href="https://openmaptiles.org/ ">OpenMapTiles</a> &copy; <a href="http://  openstreetmap.org">OpenStreetMap</a> contributors'
-  });*/
-  var mymap = L.map('mapid').setView([43.6492, -79.3995], 17);
+  var chalmers_map = L.map('mapid').setView([43.6492, -79.3995], 17);
   var shelter_circles = [];
 
   L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
-    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia  Maps</a>, &copy; <a href="https://openmaptiles.org/ ">OpenMapTiles</a> &copy; <a href="http://  openstreetmap.org">OpenStreetMap</a> contributors'
-  }).addTo(mymap);
+    attribution: '<a href="https://chalmerscards.com">Chalmers Map</a> + &copy; <a href="https://stadiamaps.com/">Stadia  Maps</a>, &copy; <a href="https://openmaptiles.org/ ">OpenMapTiles</a> &copy; <a href="http://  openstreetmap.org">OpenStreetMap</a> contributors'
+  }).addTo(chalmers_map);
 
   // sets default map view to above st felix augusta
-  mymap.setView([43.6492, -79.3995], 17);
+  chalmers_map.setView([43.6492, -79.3995], 17);
 
-  // TODO: Pull in JSON data
+  //* Utility Functions *//
   function GetData(url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, false);
@@ -59,7 +55,27 @@
     var blue = scale(occupacy, 0, capacity, 255, 0);
     return [red, blue];
   }
+  function set_circle_radius(circle, map)
+  {
+    var myZoom = {
+      start:  map.getZoom(),
+      end: map.getZoom()
+    };
 
+    map.on('zoomstart', function(e) {
+      myZoom.start = map.getZoom();
+    });
+
+    map.on('zoomend', function(e) {
+      myZoom.end = map.getZoom();
+      var diff = myZoom.start - myZoom.end;
+      if (diff > 0) {
+        circle.setRadius(circle.getRadius() * 2);
+      } else if (diff < 0) {
+        circle.setRadius(circle.getRadius() / 2);
+      }
+    });
+  }
 
   /* main script starts here */
   var interval = setInterval(function() {
@@ -112,13 +128,13 @@
     var circle_color = map_occupancy_to_color(shelter.Service_Status.Firecode_Space.Firecode_Occupancy, shelter.Service_Status.Firecode_Space.Firecode_Capacity);
     circle_color = "rgb(" + circle_color[0] + "," + 0  + "," + circle_color[1] +  ")";
 
-
     var shelter_circle = L.circle([shelter.Shelter_Properties.latitude, shelter.Shelter_Properties.longitude], {
       color: circle_color,
       fillColor: circle_color,
       fillOpacity: 0.5,
       radius: 10
-    }).addTo(mymap);
+    }).addTo(chalmers_map);
+    set_circle_radius(shelter_circle, chalmers_map);
     shelter_circles.push(shelter_circle);
 
     shelter_circle.bindPopup(
@@ -132,8 +148,6 @@
       "</br>"
     );
   };
-  //// TODO: Set color of circle to st felix center occupacy
-  //// TODO: Set Shelter Properties on circle's popup, update on timer
 </script>
 
 </html>
