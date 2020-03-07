@@ -7,15 +7,23 @@
   <!-- Make sure you put this AFTER Leaflet's CSS -->
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
   <style media="screen">
-    * {
+    *
+    {
       magin: 0;
       padding: 0;
     }
-    body {
+    body
+    {
       background: black;
     }
-    .leaflet-container {
+    .leaflet-container
+    {
       background: black;
+    }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip
+    {
+      background-color: black;
+      color: white;
     }
     #mapid {
       height: 98vh;
