@@ -19,6 +19,7 @@
     .leaflet-container
     {
       background: black;
+
     }
     .leaflet-popup-content-wrapper, .leaflet-popup-tip
     {
@@ -104,14 +105,24 @@
         "    " + "/" + "    " +
         new_shelter.Service_Status.Firecode_Space.Firecode_Capacity +
         "</br>"
-
       );
       var circle_color = map_occupancy_to_color(new_shelter.Service_Status.Firecode_Space.Firecode_Occupancy, new_shelter.Service_Status.Firecode_Space.Firecode_Capacity);
       circle_color = "rgb(" + circle_color[0] + "," + 0  + "," + circle_color[1] +  ")";
 
       shelter_circle.setStyle({color: circle_color, fillColor: circle_color});
 
-    }
+      //set the same circle color on all map popup drop shadows
+      let popup_dropshawdows = document.querySelectoAll(".leaflet-popup-content-wrapper");
+      for (let i = 0; i < popup_dropshawdows.length; i++)
+      {
+        popup_dropshawdows[i].style.boxShadow =
+                                                "0 0 3px"
+                                                + " rgb("
+                                                + circle_color[0]
+                                                + "," + 0
+                                                + ","
+                                                + circle_color[1] +  ")";
+      }
   }, 1000);
 
   var firebase_data = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
