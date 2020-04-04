@@ -85,18 +85,18 @@
     });
   }
 
-function render_shelters() {
+function render_shelters(update) {
   //Get Firebase Data
   var shelters_json = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
   var shelter_names = Object.keys(shelters_json);
-
+  /*
   //On refresh remove existing shelter cirlces and redraw them
   if(shelter_circles.length > 0) {
     for (var i = 0; i < shelter_circles.length; i++) {
       shelter_circles[i].remove();
     }
   }
-
+  */
   //Get List of Shelters and Assign Shelter Details to it
   for (var i = 0; i < shelter_names.length; i++) {
     var current_shelter_name = shelter_names[i];
@@ -109,7 +109,7 @@ function render_shelters() {
     var current_shelter_capacity = current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity;
     var current_circle_color = map_occupancy_to_color(current_shelter_occupancy,current_shelter_capacity);
 
-    
+
     //Draw Circles
     var current_shelter_latitude = current_shelter_info.Shelter_Properties.latitude;
     var current_shelter_longitude = current_shelter_info.Shelter_Properties.longitude;
@@ -121,28 +121,37 @@ function render_shelters() {
       radius: 10
     };
 
-    var current_shelter_circle = L.circle(current_shelter_map_coordinates, current_circle_options).addTo(chalmers_map);
-    set_circle_radius(current_shelter_circle, chalmers_map);
+    if (update == false)
+    {
+      var current_shelter_circle = L.circle(current_shelter_map_coordinates, current_circle_options).addTo(chalmers_map);
+      set_circle_radius(current_shelter_circle, chalmers_map);
+    }
 
     //Bind That Cirlce to PopUp
     current_shelter_circle.bindPopup(
       "<h3>" +
         current_shelter_info.Shelter_Contact.friendly_name +
       "</h3>" +
-      "<h4>Occupancy</h4>" 
+      "<h4>Occupancy</h4>"
       + current_shelter_occupancy + "    " + "/" + "    " + current_shelter_capacity +
       "</br>"
     );
 
     //Add Circle to Cirlce-Tracker
     shelter_circles.push(current_shelter_circle);
+    //update shelter_circle_data
+    for (var i = 0; i < shelter_circles.length; i++)
+    {
+      shelter_circles[i].setStyle({color: circle_color, fillColor: circle_color});
+      set_circle_radius(shelter_circles[i], chalmers_map);
+    }
   }
 }
 
 
 /* main script starts here */
-render_shelters()
-var interval = setInterval(render_shelters, 1000);
+render_shelters(false); //DON'T update, just instatiate shelters
+var interval = setInterval(render_shelters(true), 1000);//DO update shelter data once per second
 </script>
 
 </html>
