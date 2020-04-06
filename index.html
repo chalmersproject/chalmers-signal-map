@@ -96,6 +96,16 @@ function render_shelters() {
       shelter_circles[i].remove();
     }
   }
+  function display_populations_served(client_properties) {
+    populations_served_string = "";
+    for (var key of Object.keys(client_properties)){
+        if (client_properties[key]) {
+          populations_served_string = populations_served_string + key;
+        }
+        populations_served_string = populations_served_string +  " ";
+    }
+    return populations_served_string;
+  }
 
   //Get List of Shelters and Assign Shelter Details to it
   for (var i = 0; i < shelter_names.length; i++) {
@@ -130,8 +140,11 @@ function render_shelters() {
         current_shelter_info.Shelter_Contact.friendly_name +
       "</h3>" +
       "<h4>Occupancy</h4>" 
-      + current_shelter_occupancy + "    " + "/" + "    " + current_shelter_capacity +
-      "</br>"
+      + "<p>"+ current_shelter_occupancy + "    " + "/" + "    " + current_shelter_capacity + "</p>" +
+      "<h4>Phone Number</h4>" +
+        "<p>" + current_shelter_info.Shelter_Contact.phone_number + "</p>" +
+      "<h4>Populations Served</h4>" + 
+        "<p>" + display_populations_served(current_shelter_info.Client_Properties) + "</p>"
     );
 
     //Add Circle to Cirlce-Tracker
