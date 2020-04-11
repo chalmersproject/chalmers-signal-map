@@ -165,12 +165,11 @@
         bindPopup(current_shelter_circle);
         //Add Circle to Cirlce-Tracker
         shelter_circles.push(current_shelter_circle);
-        console.log("testing if stuff does other stuff!");
       }else if (create_shelters == false) {
         current_shelter_circle = shelter_circles[i];
         set_circle_radius(current_shelter_circle, chalmers_map);
+        current_shelter_circle.setCircleColor()
         //Bind That Cirlce to PopUp
-        console.log("testing if stuff does stuff!");
         bindPopup(current_shelter_circle);
       }
     }
@@ -179,7 +178,7 @@
 /* main script starts here */
 grab_data();
 render_shelters(true); //instatiate the shelters
-var interval = setInterval(function(){render_shelters(false); console.log("test!");}, 1000); //update the shelters
+var interval = setInterval(function(){render_shelters(false);}, 1000); //update the shelters
 </script>
 
 </html>
