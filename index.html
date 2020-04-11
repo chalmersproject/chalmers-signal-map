@@ -168,7 +168,7 @@
       }else if (create_shelters == false) {
         current_shelter_circle = shelter_circles[i];
         set_circle_radius(current_shelter_circle, chalmers_map);
-        current_shelter_circle.setCircleColor()
+        current_shelter_circle.setStyle({color:current_circle_options.color,fillColor:current_circle_options.color})
         //Bind That Cirlce to PopUp
         bindPopup(current_shelter_circle);
       }
