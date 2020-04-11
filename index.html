@@ -85,6 +85,7 @@
     });
   }
 
+<<<<<<< HEAD
 function render_shelters(update) {
   //Get Firebase Data
   var shelters_json = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
@@ -94,8 +95,19 @@ function render_shelters(update) {
   if(shelter_circles.length > 0) {
     for (var i = 0; i < shelter_circles.length; i++) {
       shelter_circles[i].remove();
+=======
+  function display_populations_served(client_properties) {
+    populations_served_string = "";
+    for (var key of Object.keys(client_properties)){
+      if (client_properties[key]) {
+        populations_served_string = populations_served_string + key;
+      }
+      populations_served_string = populations_served_string +  " ";
+>>>>>>> master
     }
+    return populations_served_string;
   }
+<<<<<<< HEAD
   */
   //Get List of Shelters and Assign Shelter Details to it
   for (var i = 0; i < shelter_names.length; i++) {
@@ -144,14 +156,75 @@ function render_shelters(update) {
     {
       shelter_circles[i].setStyle({color: circle_color, fillColor: circle_color});
       set_circle_radius(shelter_circles[i], chalmers_map);
+=======
+
+  function render_shelters() {
+    //Get Firebase Data
+    var shelters_json = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
+    var shelter_names = Object.keys(shelters_json);
+
+    //On refresh remove existing shelter cirlces and redraw them
+    if(shelter_circles.length > 0) {
+      for (var i = 0; i < shelter_circles.length; i++) {
+        shelter_circles[i].remove();
+      }
+    }
+
+    //Get List of Shelters and Assign Shelter Details to it
+    for (var i = 0; i < shelter_names.length; i++) {
+      var current_shelter_name = shelter_names[i];
+
+      //Parse Important Shelter Information
+      var current_shelter_info = shelters_json[current_shelter_name];
+
+      //Parse information that determines cirlce colour
+      var current_shelter_occupancy = current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy;
+      var current_shelter_capacity = current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity;
+      var current_circle_color = map_occupancy_to_color(current_shelter_occupancy,current_shelter_capacity);
+
+      
+      //Draw Circles
+      var current_shelter_latitude = current_shelter_info.Shelter_Properties.latitude;
+      var current_shelter_longitude = current_shelter_info.Shelter_Properties.longitude;
+      var current_shelter_map_coordinates = [current_shelter_latitude, current_shelter_longitude];
+      var current_circle_options = {
+        color: current_circle_color,
+        fillColor: current_circle_color,
+        fillOpacity: 0.5,
+        radius: 10
+      };
+
+      var current_shelter_circle = L.circle(current_shelter_map_coordinates, current_circle_options).addTo(chalmers_map);
+      set_circle_radius(current_shelter_circle, chalmers_map);
+
+      //Bind That Cirlce to PopUp
+      current_shelter_circle.bindPopup(
+        "<h3>" +
+          current_shelter_info.Shelter_Contact.friendly_name +
+        "</h3>" +
+        "<h4>Occupancy</h4>" 
+        + "<p>"+ current_shelter_occupancy + "    " + "/" + "    " + current_shelter_capacity + "</p>" +
+        "<h4>Phone Number</h4>" +
+          "<p>" + current_shelter_info.Shelter_Contact.phone_number + "</p>" +
+        "<h4>Populations Served</h4>" + 
+          "<p>" + display_populations_served(current_shelter_info.Client_Properties) + "</p>"
+      );
+
+      //Add Circle to Cirlce-Tracker
+      shelter_circles.push(current_shelter_circle);
+>>>>>>> master
     }
   }
-}
 
 
 /* main script starts here */
+<<<<<<< HEAD
 render_shelters(false); //DON'T update, just instatiate shelters
 var interval = setInterval(render_shelters(true), 1000);//DO update shelter data once per second
+=======
+render_shelters()
+var interval = setInterval(render_shelters, 30000);
+>>>>>>> master
 </script>
 
 </html>
