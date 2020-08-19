@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
+<!-- https://raw.githubusercontent.com/misterchalmers/chalmers-signal-map/master/assets/shelter_icon.svg -->
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
@@ -10,13 +10,9 @@
     *
     {
       box-sizing: border-box;
-      boder: 0;
-      magin: 0;
+      border: 0;
+      margin: 0;
       padding: 0;
-    }
-    body
-    {
-      background: black;
     }
     .leaflet-popup-content-wrapper, .leaflet-popup-tip
     {
@@ -24,8 +20,13 @@
       color: white;
     }
     #mapid {
-      width: 98vw;
-      height: 98vh;
+      width: 100vw;
+      height: 100vh;
+    }
+    .shelter_circles{
+      width:20px; height:20px;
+      background-image:url("icon2.jpg");
+      background-size: 20px 20px;
     }
   </style>
 
@@ -156,6 +157,7 @@
         radius: 80
       };
 
+      //instatiate shelter icons
       if (create_shelters == true)
       {
         var current_shelter_circle = L.circle(current_shelter_map_coordinates, current_circle_options).addTo(chalmers_map);
@@ -164,6 +166,7 @@
         bindPopup(current_shelter_circle);
         //Add Circle to Cirlce-Tracker
         shelter_circles.push(current_shelter_circle);
+      //else update shelter icons
       }else if (create_shelters == false) {
         current_shelter_circle = shelter_circles[i];
         set_circle_radius(current_shelter_circle, chalmers_map);
