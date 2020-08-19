@@ -9,14 +9,12 @@
   <style media="screen">
     *
     {
+      box-sizing: border-box;
+      boder: 0;
       magin: 0;
       padding: 0;
     }
     body
-    {
-      background: black;
-    }
-    .leaflet-container
     {
       background: black;
     }
@@ -26,6 +24,7 @@
       color: white;
     }
     #mapid {
+      width: 98vw;
       height: 98vh;
     }
   </style>
@@ -60,8 +59,8 @@
   }
   function map_occupancy_to_color(occupacy, capacity) {
     var red = scale(occupacy, 0, capacity, 0, 255);
-    var blue = scale(occupacy, 0, capacity, 255, 0);
-    return "rgb(" + red + "," + 0  + "," + blue +  ")";
+    var green = scale(occupacy, 0, capacity, 255, 0);
+    return "rgb(" + red + "," + green  + "," + 0 +  ")";
   }
 
   var radius_min, radius_max;
