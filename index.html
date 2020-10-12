@@ -223,7 +223,7 @@
       fillOpacity: 0.5,
       radius: 80
     };
-    set_circle_radius(current_shelter_circle, chalmers_map);
+    
     
     //
     // instatiate circle as Leaflet circle
@@ -232,7 +232,7 @@
       current_shelter_map_coordinates, 
       current_circle_options
     ).addTo(chalmers_map);
-    
+    set_circle_radius(current_shelter_circle, chalmers_map);
     //
     // bind popup to circle
     //
