@@ -1,21 +1,32 @@
 *
-    {
-      box-sizing: border-box;
-      border: 0;
-      margin: 0;
-      padding: 0;
-    }
-    .leaflet-popup-content-wrapper, .leaflet-popup-tip
-    {
-      background-color: black;
-      color: white;
-    }
-    #mapid {
-      width: 100vw;
-      height: 100vh;
-    }
-    .shelter_circles{
-      width:20px; height:20px;
-      background-image:url("icon2.jpg");
-      background-size: 20px 20px;
-    }
+{
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.leaflet-container {
+    background: black;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip
+{
+    background-color: black;
+    color: white;
+}
+.leaflet-popup-content-wrapper {
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+}
+
+.leaflet-popup-tip-container {
+}
+#mapid {
+    width: 100vw;
+    height: 100vh;
+}
+.shelter_circles{
+    width:20px; height:20px;
+    background-image:url("icon2.jpg");
+    background-size: 20px 20px;
+}

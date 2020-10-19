@@ -86,31 +86,10 @@ var radius_min, radius_max;
 const scale = (num, in_min, in_max, out_min, out_max) => {
     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
-function set_circle_radius(circle, map) {
-    radius_min = 25;
-    radius_max = 80;
-    var radius_mult = 2;
-    var myZoom = {
-        start: map.getZoom(),
-        end: map.getZoom()
-    };
-    map.on('zoomstart', function (e) {
-        myZoom.start = map.getZoom();
-    });
-    map.on('zoomend', function (e) {
-        myZoom.end = map.getZoom();
-        var diff = myZoom.start - myZoom.end;
-        if (diff > 0) {
-            circle.setRadius(circle.getRadius() * radius_mult);
-        } else if (diff < 0) {
-            circle.setRadius(circle.getRadius() / radius_mult);
-        }
-        if (radius_min >= circle.getRadius()) {
-            circle.setRadius(radius_min);
-        } else if (circle.getRadius() >= radius_max) {
-            circle.setRadius(radius_max);
-        }
-    });
+function set_circle_radius(circle_radius) {
+    var current_zoom = chalmers_map.getZoom();
+    circle_radius = current_zoom*2;
+    return circle_radius;
 }
 
 //        _          _                                      
@@ -190,7 +169,7 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
         current_shelter_map_coordinates,
         current_circle_options
     ).addTo(chalmers_map);
-    set_circle_radius(current_shelter_circle, chalmers_map);
+    set_circle_radius(current_shelter_circle);
     //
     // bind popup to circle
     //
@@ -211,11 +190,28 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
 //
 function update_shelter_circle(i) {
     current_shelter_circle = shelter_circles[i];
-    set_circle_radius(current_shelter_circle, chalmers_map);
+    
+    console.log();
+    console.log(shelter_names[i]);
+    console.log(current_shelter_circle);
+    console.log("CURRENT CIRCLE RADIUS: " + current_shelter_circle.radius);
+
+    current_shelter_circle.radius = set_circle_radius(current_shelter_circle.radius);
     current_shelter_circle.setStyle(current_circle_options);
     //Bind That Cirlce to PopUp
     bindPopup(current_shelter_circle);
 }
+
+//   _       _                             _       
+//  (_)_ __ | |_ ___ _ __ _ __ _   _ _ __ | |_ ___ 
+//  | | '_ \| __/ _ \ '__| '__| | | | '_ \| __/ __|
+//  | | | | | ||  __/ |  | |  | |_| | |_) | |_\__ \
+//  |_|_| |_|\__\___|_|  |_|   \__,_| .__/ \__|___/
+//                                  |_|            
+var map_zoomend = false;
+chalmers_map.on('zoomend', function () {
+    map_zoomend = true;
+});
 
 //       _                      _                   
 //    __| |_ __ __ ___      __ | | ___   ___  _ __  
@@ -224,24 +220,41 @@ function update_shelter_circle(i) {
 //   \__,_|_|  \__,_| \_/\_/   |_|\___/ \___/| .__/ 
 //                                           |_|    
 //
+
+// the create_shelters variable is a boolean which tells us 
+// if shelters need to be created for the first time, 
+// or if they can just be updated
 function render_shelters(create_shelters) {
     pull_data_from_firebase();
     // Get List of Shelters Names and create a circle for each one
     // Attach details to each Shelter-Name-with-circle
-    for (var i = 0; i < shelter_names.length; i++) {
+    for (var i = 0; i < shelter_names.length; i++) {        
         // Parse a Shelter's Information
         pull_shelter_info(shelter_names, shelters_json, i);
 
-        // Create the circle!
-        // TODO: destroy and recreate all circles if number of shelters change
-        if (create_shelters == true) {
-            draw_shelter_circle(current_shelter_map_coordinates, current_circle_options, current_shelter_circle);
-            // else if shelters have already been created
-            // update shelter circles
-        } else if (create_shelters == false) {
+        // TODO: Check if new shelters have come online since site loaded
+        // if true destroy all shelter_circles and recreate all of them 
+        // to update the shelter_circles array
+        /*
+            if (firebase_data.shelter_names[] > local_data.shelter_names[])
+            {
+                create_shelters == true
+            }
+        */
+
+        // Update the Circles. Else, create all the circles
+        if (create_shelters == false){
             update_shelter_circle(i);
+        } else {
+            draw_shelter_circle(current_shelter_map_coordinates, current_circle_options, current_shelter_circle);
         }
-    }
+        // update shelter circles
+        if (map_zoomend == true) {
+            update_shelter_circle(i);
+            console.log("updating shelters");
+            map_zoomend = false;
+        }
+    }    
 }
 
 
