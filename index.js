@@ -82,14 +82,14 @@ var set_circle_color = function (occupacy, capacity) {
 //
 // function for sizing circles as map is zoomed in/out
 //
-var radius_min, radius_max;
 const scale = (num, in_min, in_max, out_min, out_max) => {
     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
-function set_circle_radius(circle_radius) {
+
+function set_circle_radius(current_shelter_circle) {
     var current_zoom = chalmers_map.getZoom();
-    circle_radius = current_zoom*2;
-    return circle_radius;
+    current_shelter_circle.setRadius( (scale(current_zoom, 20, 0, 1, 300))  );
+    var last_zoom = current_zoom;
 }
 
 //        _          _                                      
@@ -158,9 +158,8 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
         color: set_circle_color(occupacy, capacity),
         fillColor: set_circle_color(occupacy, capacity),
         fillOpacity: 0.5,
-        radius: 80
+        radius: 0
     };
-
 
     //
     // instatiate circle as Leaflet circle
@@ -190,13 +189,8 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
 //
 function update_shelter_circle(i) {
     current_shelter_circle = shelter_circles[i];
-    
-    console.log();
-    console.log(shelter_names[i]);
-    console.log(current_shelter_circle);
-    console.log("CURRENT CIRCLE RADIUS: " + current_shelter_circle.radius);
 
-    current_shelter_circle.radius = set_circle_radius(current_shelter_circle.radius);
+    current_shelter_circle.radius = set_circle_radius(current_shelter_circle);
     current_shelter_circle.setStyle(current_circle_options);
     //Bind That Cirlce to PopUp
     bindPopup(current_shelter_circle);
@@ -253,6 +247,11 @@ function render_shelters(create_shelters) {
             update_shelter_circle(i);
             console.log("updating shelters");
             map_zoomend = false;
+            console.log();
+            console.log(shelter_names[i]);
+            console.log(current_shelter_circle);
+            console.log("CURRENT CIRCLE RADIUS: " + current_shelter_circle.getRadius());
+            console.log("CURRENT MAP ZOOM     : " + chalmers_map.getZoom());
         }
     }    
 }
