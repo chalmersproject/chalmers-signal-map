@@ -39,6 +39,7 @@ function pull_data_from_firebase() {
     shelter_names = Object.keys(shelters_json);
 }
 var occupacy, capacity;
+// gets run in forloop in draw loop
 function pull_shelter_info(shelter_names, shelters_json, i) {
     current_shelter_name = shelter_names[i];
     current_shelter_info = shelters_json[current_shelter_name];
@@ -125,7 +126,7 @@ function bindPopup(current_shelter_circle) {
         current_shelter_info.Shelter_Contact.friendly_name +
         "</h3>" +
         "<h4>Occupancy</h4>"
-        + "<p>" + current_shelter_occupancy + "    " + "/" + "    " + current_shelter_capacity + "</p>" +
+        + "<p>" + current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + "    " + "/" + "    " + current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + "</p>" +
         "<h4>Phone Number</h4>" +
         "<p>" + current_shelter_info.Shelter_Contact.phone_number + "</p>" +
         "<h4>Populations Served</h4>" +
@@ -225,7 +226,6 @@ function render_shelters(create_shelters) {
     for (var i = 0; i < shelter_names.length; i++) {        
         // Parse a Shelter's Information
         pull_shelter_info(shelter_names, shelters_json, i);
-
         // TODO: Check if new shelters have come online since site loaded
         // if true destroy all shelter_circles and recreate all of them 
         // to update the shelter_circles array
