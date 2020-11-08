@@ -1,0 +1,60 @@
+*
+{
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.leaflet-popup-tip{
+    background-color: black;    
+}
+.leaflet-popup-content-wrapper{
+    background-color: black;
+}
+.leaflet-popup-content
+{   
+    width: 300px;   
+    background-color: black;
+    color: white;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+    .popup-header
+    {   
+        background: red;
+        padding: 10px;
+        grid-column: span 5;
+        grid-row: 1/2;
+    }
+    
+    .occupancy-bar
+    {   
+        background-color: white;
+        grid-column: span 2;
+        grid-row: span 1;
+        margin: 10px;
+    }
+    .shelter-details
+    {
+        grid-column: span 3;
+        margin: 10px;
+    }
+    
+    
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+}
+
+.leaflet-popup-tip-container {
+}
+#mapid {
+    width: 100vw;
+    height: 100vh;
+}
+.shelter_circles{
+    width:20px; height:20px;
+    background-image:url("icon2.jpg");
+    background-size: 20px 20px;
+}
