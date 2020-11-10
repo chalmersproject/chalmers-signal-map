@@ -122,15 +122,29 @@ function display_populations_served(client_properties) {
 //
 function bindPopup(current_shelter_circle) {
     current_shelter_circle.bindPopup(
-        "<h3>" +
-        current_shelter_info.Shelter_Contact.friendly_name +
-        "</h3>" +
-        "<h4>Occupancy</h4>"
-        + "<p>" + current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + "    " + "/" + "    " + current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + "</p>" +
-        "<h4>Phone Number</h4>" +
-        "<p>" + current_shelter_info.Shelter_Contact.phone_number + "</p>" +
-        "<h4>Populations Served</h4>" +
-        "<p>" + display_populations_served(current_shelter_info.Client_Properties) + "</p>"
+        "<div class='popup-header'>" + 
+            "<h3>" +
+                current_shelter_info.Shelter_Contact.friendly_name +
+            "</h3>" +
+        "</div>" +
+        "<div class='occupancy-bar'>" +
+        "</div>" +
+        "<div class='shelter-details'>" +
+            "<h4>Occupancy</h4>" + 
+                "<p>" + 
+                    current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
+                    "    " + "/" + "    " + 
+                    current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
+                "</p>" +
+            "<h4>Phone Number</h4>" +
+                "<p>" + 
+                    current_shelter_info.Shelter_Contact.phone_number + 
+                "</p>" +
+            "<h4>Populations Served</h4>" +
+                "<p>" + 
+                    display_populations_served(current_shelter_info.Client_Properties) + 
+                "</p>" +
+        "</div>"
     );
 }
 
