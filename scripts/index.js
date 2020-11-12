@@ -117,8 +117,8 @@ function display_populations_served(client_properties) {
 }
 
 //
-// Attaches Shelter info popup to Circles
-// And styles the popup
+// Info Popup Markup
+// 
 //
 function bindPopup(current_shelter_circle) {
     current_shelter_circle.bindPopup(
@@ -130,15 +130,33 @@ function bindPopup(current_shelter_circle) {
         "<div class='occupancy-bar'>" +
         "</div>" +
         "<div class='shelter-details'>" +
-            "<h4>Occupancy</h4>" + 
+            "<h4>Space Left</h4>" + 
+                "<div class='occupancy-wrapper'>" + 
+                    "<div>" + 
+                        "<h5>Sitting Space</h5>" +
+                        "<p>" + 
+                            current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
+                            "    " + "/" + "    " + 
+                            current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
+                        "</p>" +
+                    "</div>" +
+                    "<div>" +
+                        "<h5>Beds</h5>" +
+                        "<p>" +
+                            current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy +
+                            "    " + "/" + "    " +
+                            current_shelter_info.Service_Status.Bed_Space.Bed_Capacity +
+                        "</p>" +
+                    "</div>" +
+                "</div>" +
+            "<h4>Phone Number / Address</h4>" +
                 "<p>" + 
-                    current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
-                    "    " + "/" + "    " + 
-                    current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
-                "</p>" +
-            "<h4>Phone Number</h4>" +
-                "<p>" + 
-                    current_shelter_info.Shelter_Contact.phone_number + 
+                    '<a href="tel:+1' + current_shelter_info.Shelter_Contact.phone_number + '">' +
+                        current_shelter_info.Shelter_Contact.phone_number + 
+                    '</a>' + 
+                    '<p>' +
+                    current_shelter_info.Shelter_Properties.friendly_address +
+                    '</p>' + 
                 "</p>" +
             "<h4>Populations Served</h4>" +
                 "<p>" + 
