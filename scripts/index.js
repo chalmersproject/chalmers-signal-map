@@ -74,10 +74,10 @@ var shelter_circles = [];
 //
 // colors the shelter_circles based on how full shelters are
 //
-var set_circle_color = function (occupacy, capacity) {
+var set_circle_color = function (occupacy, capacity, alpha=1) {
     var red = scale(occupacy, 0, capacity, 0, 255);
     var green = scale(occupacy, 0, capacity, 255, 0);
-    return "rgb(" + red + "," + green + "," + 0 + ")";
+    return "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")";
 }
 
 //
@@ -121,13 +121,21 @@ function display_populations_served(client_properties) {
 // 
 //
 function bindPopup(current_shelter_circle) {
+    var header_color = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.2);
+    var header_color_border = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.6);
     current_shelter_circle.bindPopup(
-        "<div class='popup-header'>" + 
+        "<div class='popup-header' style='background:" + header_color + ";" +
+                                          'border: 3px solid ' + header_color_border +
+                                          "'>" + 
             "<h3>" +
                 current_shelter_info.Shelter_Contact.friendly_name +
             "</h3>" +
         "</div>" +
-        "<div class='occupancy-bar'>" +
+        "<div class='occupancy-bar-wrapper>" + 
+            "<div class='occupancy-bar-chairs'>" +
+            "</div>" + 
+            "<div class='occupancy-bar-beds'>" +
+            "</div>" + 
         "</div>" +
         "<div class='shelter-details'>" +
             "<h4>Space Left</h4>" + 
@@ -268,7 +276,7 @@ function render_shelters(create_shelters) {
             }
         */
 
-        // Update the Circles. Else, create all the circles
+        // Update the Circles. Else, create all the circles\
         if (create_shelters == false){
             update_shelter_circle(i);
         } else {

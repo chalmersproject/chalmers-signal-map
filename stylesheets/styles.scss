@@ -32,17 +32,23 @@
         grid-row: span 1;
     }
     
-    .occupancy-bar
-    {   
-        background-color: white;
-        grid-column: span 2;
-        grid-row: span 4;
-        margin: 10px;
-    }
+    // .occupancy-bar-wrapper
+    // {   
+    //     background-color: white;
+    //     grid-column: span 2;
+    //     grid-row: span 4;
+    //     margin: 10px;
+    //     .occupancy-bar-chairs{
+
+    //     }
+    //     .occupancy-bar-beds{
+
+    //     }
+    // }
     .shelter-details
     {
         width: 100%;
-        grid-column: span 3;
+        grid-column: span 4;
         grid-row: span 4;
         margin: 10px;
         h4,h5,p{
