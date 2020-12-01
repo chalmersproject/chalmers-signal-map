@@ -147,29 +147,32 @@ function bindPopup(current_shelter_circle) {
             "</div>" + 
         "</div>" +
         "<div class='shelter-details'>" +
-            "<h4>Space Left</h4>" + 
                 "<div class='occupancy-wrapper'>" + 
                     "<div>" + 
-                        "<div class='occupancy-bar-wrapper'>" +
-                            "<div class='occupancy-bar' style='height: " + sitting_bar_height + "%'></div>" +
-                        "</div>" +
                         "<h5>Sitting Space</h5>" +
-                        "<p>" + 
-                            current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
-                            "    " + "/" + "    " + 
-                            current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
-                        "</p>" +
+                        "<div class='occupancy-info-wrapper'>" + 
+                            "<div class='occupancy-bar-wrapper'>" +
+                                "<div class='occupancy-bar' style='width: " + sitting_bar_height + "%'></div>" +
+                            "</div>" +
+                            "<p>" + 
+                                current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
+                                "    " + "/" + "    " + 
+                                current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
+                            "</p>" +
+                        "</div>" +
                     "</div>" +
                     "<div>" +
+                    "<h5>Beds</h5>" +
+                    "<div class='occupancy-info-wrapper'>" + 
                         "<div class='occupancy-bar-wrapper'>" +
-                            "<div class='occupancy-bar' style='height: " + bed_bar_height + "%'></div>" +
+                            "<div class='occupancy-bar' style='width: " + bed_bar_height + "%'></div>" +
                         "</div>" +
-                        "<h5>Beds</h5>" +
                         "<p>" +
                             current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy +
                             "    " + "/" + "    " +
                             current_shelter_info.Service_Status.Bed_Space.Bed_Capacity +
                         "</p>" +
+                        "</div>" +
                     "</div>" +
                 "</div>" +
             "<h4>Phone Number / Address</h4>" +
@@ -291,7 +294,7 @@ function render_shelters(create_shelters) {
             }
         */
 
-        // Update the Circles. Else, create all the circles\
+        // Update the Circles. Else, create all the circles  
         if (create_shelters == false){
             update_shelter_circle(i);
         } else {
