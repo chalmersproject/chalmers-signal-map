@@ -1,5 +1,26 @@
+//
+// 
+// object oriented circle
+// 
+//
+// 
+// 
+/*
+circles = [];
 
-//                       _                               
+for (for i in firebase.shetlers)
+    let circle[i] = new circle( firebase.json )
+    circles.push(circle[i])
+}
+circle ( firebase_data )
+    circle.lat = firebase_data.latiutde
+    circle.long = firebase_data.long
+    circle.standing_occupancy = firebase.standing.occupancy
+    circle.
+
+*/
+
+_                               
 //    ___ _ __ ___  __ _| |_ ___   _ __ ___   __ _ _ __  
 //   / __| '__/ _ \/ _` | __/ _ \ | '_ ` _ \ / _` | '_ \ 
 //  | (__| | |  __/ (_| | ||  __/ | | | | | | (_| | |_) |
