@@ -253,8 +253,9 @@ function update_shelter_circle(i) {
     current_shelter_circle.radius = set_circle_radius(current_shelter_circle);
     // current_circle_options.set = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity);
     // current_circle_options.fillColor =  set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity);
-    current_shelter_circle.setStyle(current_circle_options);
-    console.log(current_circle_options);
+    current_shelter_circle.setStyle({ fillColor: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity)});
+    current_shelter_circle.setStyle({ color: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity) });
+    // console.log(current);
     //Bind That Cirlce to PopUp
     bindPopup(current_shelter_circle);
 }
