@@ -16,7 +16,7 @@ circle ( firebase_data )
     circle.lat = firebase_data.latiutde
     circle.long = firebase_data.long
     circle.standing_occupancy = firebase.standing.occupancy
-    circle.
+    circle.standing_capacity = firebase.capacity
 
 */
 
