@@ -74,7 +74,12 @@
           background-color: rgba(220, 220, 250, 0.3);
           padding: 5px; }
       .leaflet-popup-content .shelter-details .occupancy-wrapper .occupancy-bar-wrapper {
-        width: 30px; }
+        width: 30px;
+        height: 80px;
+        background-color: black; }
+        .leaflet-popup-content .shelter-details .occupancy-wrapper .occupancy-bar-wrapper .occupancy-bar {
+          width: 100%;
+          background-color: white; }
 
 #mapid {
   width: 100vw;
