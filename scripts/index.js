@@ -73,9 +73,8 @@ class Shelter {
                 fillColor: "rgb(0,0,0,0)",
                 fillOpacity: 0.5,
                 radius: 0
-
             }
-        ).addTo(chalmers_map);
+        )
     }
     
     //
@@ -97,11 +96,11 @@ class Shelter {
         return "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")";
     }
     
-    // set_circle_radius(this.circle) {
-    //     var current_zoom = chalmers_map.getZoom();
-    //     current_shelter_circle.setRadius((scale(current_zoom, 20, 0, 1, 300)));
-    //     var last_zoom = current_zoom;
-    // }
+    set_circle_radius(this.circle) {
+        var current_zoom = chalmers_map.getZoom();
+        this.circle.setRadius((scale(current_zoom, 20, 0, 1, 300)));
+        var last_zoom = current_zoom;
+    }
 
 
     update()
@@ -138,6 +137,7 @@ function create_and_update_shelters(create_shelters)
     {
         for (var i = 0; i < shelters.length; i++)
         {
+            shelters[i].circle.addTo(chalmers_map);
             console.log(shelters[i].update());
             // console.log(shelters[i])
         }
