@@ -62,7 +62,11 @@ class Shelter {
     constructor(shelter_name, shelter_data) {
         this.name = shelter_name;
         this.data = shelter_data;
-
+        
+        // 
+        // track L.circle with ID, assign it to class
+        // https://stackoverflow.com/questions/25683871/assign-id-to-marker-in-leaflet
+        // 
         this.circle = L.circle(
             [
                 this.data.Shelter_Properties.latitude, 
@@ -98,7 +102,7 @@ class Shelter {
     
     set_circle_radius(this.circle) {
         var current_zoom = chalmers_map.getZoom();
-        this.circle.setRadius((scale(current_zoom, 20, 0, 1, 300)));
+        shelter_circles[].setRadius((scale(current_zoom, 20, 0, 1, 300)));
         var last_zoom = current_zoom;
     }
 
