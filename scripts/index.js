@@ -79,6 +79,10 @@ class Shelter {
         return this.set_color();
     }
     get update(){
+        this._update()
+        return "updating";
+    }
+    _update(){
         this.set_circle_radius(circles[this.id]);
         this.set_color(circles[this.id],
             this.data.Service_Status.Firecode_Space.Firecode_Occupancy,
@@ -94,6 +98,8 @@ class Shelter {
     }
     set_circle_radius(circle) {
         var current_zoom = chalmers_map.getZoom();
+        console.log("circle about to have radius updated");
+        console.log(circle);
         circle.setRadius((scale(current_zoom, 20, 0, 1, 300)));
         var last_zoom = current_zoom;
     }
@@ -144,7 +150,7 @@ function create_and_update_shelters(create_shelters)
                         color: "rgb(0,0,0,0)",
                         fillColor: "rgb(0,0,0,0)",
                         fillOpacity: 0.5,
-                        radius: 0
+                        radius: 90
                     }
                 ).addTo(chalmers_map);
         }
@@ -158,17 +164,12 @@ function create_and_update_shelters(create_shelters)
             shelter = shelters[shelter];
             console.log('the shelter');
             console.log(shelter);
-            console.log(shelter.update());
+            console.log(shelter.update);
+            console.log(circles[shelter.id]);
             // console.log(shelters[i])
         }
         
     }
-    
-    // // Object.assign(shelter_obj, shelter_data)
-    // console.log("shelter_obj");
-    // console.log(shelter);
-    // console.log(shelter.color);
-    // console.log(shelters);
 }
 
 //                   _         _                   
