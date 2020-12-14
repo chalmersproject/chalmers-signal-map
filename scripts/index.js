@@ -1,3 +1,10 @@
+//
+// basically map() from p5.js
+//
+var scale = (num, in_min, in_max, out_min, out_max) => {
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 //                       _                               
 //    ___ _ __ ___  __ _| |_ ___   _ __ ___   __ _ _ __  
 //   / __| '__/ _ \/ _` | __/ _ \ | '_ ` _ \ / _` | '_ \ 
@@ -59,60 +66,38 @@ console.log(firebase_data);
 // TODO: Rename to shelter_dot
 var shelter_circles = [];
 class Shelter {
-    constructor(shelter_name, shelter_data) {
-        this.name = shelter_name;
+    constructor(shelter_data) {
         this.data = shelter_data;
-        
-        // 
-        // track L.circle with ID, assign it to class
-        // https://stackoverflow.com/questions/25683871/assign-id-to-marker-in-leaflet
-        // 
-        this.circle = L.circle(
-            [
-                this.data.Shelter_Properties.latitude, 
-                this.data.Shelter_Properties.latitude
-            ] ,
-            {
-                color : "rgb(0,0,0,0)",
-                fillColor: "rgb(0,0,0,0)",
-                fillOpacity: 0.5,
-                radius: 0
-            }
-        )
+        this.id = '_' + Math.random().toString(36).substr(2, 9);        
     }
     
-    //
-    // basically map() from p5.js
-    //
-    scale = (num, in_min, in_max, out_min, out_max) => {
-        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
     
     //
     // colors the shelter_circles based on how full shelters are
     //
     get color() {
-        return this.set_color(this.data.Service_Status.Firecode_Space.Firecode_Occupancy, this.data.Service_Status.Firecode_Space.Firecode_Capacity);
+        return this.set_color();
     }
-    set_color(occupancy, capacity, alpha = 1) {
-        var red = this.scale(occupancy, 0, capacity, 0, 255);
-        var green = this.scale(occupancy, 0, capacity, 255, 0);
-        return "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")";
+    get update(){
+        this.set_circle_radius(circles[this.id]);
+        this.set_color(circles[this.id],
+            this.data.Service_Status.Firecode_Space.Firecode_Occupancy,
+            this.data.Service_Status.Firecode_Space.Firecode_Capacity);
     }
-    
-    set_circle_radius(this.circle) {
+    set_color(circle, occupancy, capacity, alpha = 1) {
+        var red = scale(occupancy, 0, capacity, 0, 255);
+        var green = scale(occupancy, 0, capacity, 255, 0);
+        circle.setStyle({
+            fillColor: "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")",
+            color: "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")"
+        });
+    }
+    set_circle_radius(circle) {
         var current_zoom = chalmers_map.getZoom();
-        shelter_circles[].setRadius((scale(current_zoom, 20, 0, 1, 300)));
+        circle.setRadius((scale(current_zoom, 20, 0, 1, 300)));
         var last_zoom = current_zoom;
     }
 
-
-    update()
-    {   
-        // console.log( this.set_circle_radius() );
-        console.log(this.circle);
-        return "hello!";
-    }
 }
 
 //       _                      _                   
@@ -126,23 +111,54 @@ class Shelter {
 // the create_shelters variable is a boolean which tells us 
 // if shelters need to be created for the first time, 
 // or if they can just be updated
-var shelters = [];
+var shelters = {};
+var circles = {};
 function create_and_update_shelters(create_shelters)
 {
     get_firebase_data();
     
     if (create_shelters == true)
     {
-        for (var shelter_data in firebase_data) {
-            var shelter = new Shelter(shelter_data, firebase_data[shelter_data])
-            shelters.push(shelter);
+        for (var shelter in firebase_data) 
+        {
+            var shelter_name = '' + shelter;
+            console.log(shelter_name);
+            //
+            // create sheter objects
+            shelters[shelter_name] = new Shelter(firebase_data[shelter_name]);
+            console.log("sheletr data");
+            console.log(shelters[shelter_name]);
+
+            //
+            // create shelter circles on map with popups
+            // 
+            // track L.circle with ID, assign it to class
+            // https://stackoverflow.com/questions/25683871/    assign-id-to-marker-in-leaflet
+            // 
+            circles[shelters[shelter_name].id] = L.circle(
+                    [
+                        shelters[shelter_name].data.Shelter_Properties.latitude,
+                        shelters[shelter_name].data.Shelter_Properties.latitude
+                    ],
+                    {
+                        color: "rgb(0,0,0,0)",
+                        fillColor: "rgb(0,0,0,0)",
+                        fillOpacity: 0.5,
+                        radius: 0
+                    }
+                ).addTo(chalmers_map);
         }
+        console.log('all circles');
+        console.log(circles);
+
     } else
     {
-        for (var i = 0; i < shelters.length; i++)
+        for (shelter in shelters)
         {
-            shelters[i].circle.addTo(chalmers_map);
-            console.log(shelters[i].update());
+            shelter = shelters[shelter];
+            console.log('the shelter');
+            console.log(shelter);
+            console.log(shelter.update());
             // console.log(shelters[i])
         }
         
