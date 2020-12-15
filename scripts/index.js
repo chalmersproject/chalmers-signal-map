@@ -147,8 +147,8 @@ function create_and_update_shelters(create_shelters)
                         shelters[shelter_name].data.Shelter_Properties.latitude
                     ],
                     {
-                        color: "rgb(0,0,0,0)",
-                        fillColor: "rgb(0,0,0,0)",
+                        color: "rgb(200,0,0,0)",
+                        fillColor: "rgb(200,0,0,0)",
                         fillOpacity: 0.5,
                         radius: 90
                     }
