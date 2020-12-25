@@ -152,7 +152,8 @@ function create_and_update_shelters(create_shelters)
                         fillOpacity: 0.5,
                         radius: 90
                     }
-                ).addTo(chalmers_map);
+                );
+            circles[shelters[shelter_name].id].addTo(chalmers_map);
         }
         console.log('all circles');
         console.log(circles);
