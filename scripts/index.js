@@ -38,12 +38,12 @@ function pull_data_from_firebase() {
     shelters_json = JSON.parse(GetData("https://chalmers-signal.firebaseio.com/Shelters.json"));
     shelter_names = Object.keys(shelters_json);
 }
-var occupacy, capacity;
+var occupancy, capacity;
 // gets run in forloop in draw loop
 function pull_shelter_info(shelter_names, shelters_json, i) {
     current_shelter_name = shelter_names[i];
     current_shelter_info = shelters_json[current_shelter_name];
-    occupacy = current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy;
+    occupancy = current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy;
     capacity = current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity;
 }
 
@@ -74,9 +74,9 @@ var shelter_circles = [];
 //
 // colors the shelter_circles based on how full shelters are
 //
-var set_circle_color = function (occupacy, capacity, alpha=1) {
-    var red = scale(occupacy, 0, capacity, 0, 255);
-    var green = scale(occupacy, 0, capacity, 255, 0);
+var set_circle_color = function (occupancy, capacity, alpha=1) {
+    var red = scale(occupancy, 0, capacity, 0, 255);
+    var green = scale(occupancy, 0, capacity, 255, 0);
     return "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")";
 }
 //
@@ -183,6 +183,7 @@ function bindPopup(current_shelter_circle) {
 var current_shelter_circle,
     current_shelter_map_coordinates,
     current_circle_options;
+
 function draw_shelter_circle(current_shelter_map_coordinates, current_circle_options, current_shelter_circle) {
     //
     // set circle location
@@ -196,12 +197,12 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
     // set circle style
     //
     current_circle_options = {
-        color: set_circle_color(occupacy, capacity),
-        fillColor: set_circle_color(occupacy, capacity),
+        color: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity),
+        fillColor: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity),
         fillOpacity: 0.5,
         radius: 0
     };
-
+    console.log(current_circle_options);
     //
     // instatiate circle as Leaflet circle
     //
@@ -230,9 +231,10 @@ function draw_shelter_circle(current_shelter_map_coordinates, current_circle_opt
 //
 function update_shelter_circle(i) {
     current_shelter_circle = shelter_circles[i];
-
     current_shelter_circle.radius = set_circle_radius(current_shelter_circle);
-    current_shelter_circle.setStyle(current_circle_options);
+    current_shelter_circle.setStyle({ fillColor: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity)});
+    current_shelter_circle.setStyle({ color: set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity) });
+
     //Bind That Cirlce to PopUp
     bindPopup(current_shelter_circle);
 }

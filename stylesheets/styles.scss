@@ -93,8 +93,12 @@
             }
             .occupancy-bar-wrapper{
                 width: 30px;
-                .occupancy-bar{
+                height:80px;
+                background-color: black;
 
+                .occupancy-bar{
+                    width: 100%;
+                    background-color: white; 
                 }
             }
         }
