@@ -132,64 +132,46 @@ function bindPopup(current_shelter_circle) {
     var sitting_bar_height = convert_to_percentage(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity);
     var bed_bar_height = convert_to_percentage(current_shelter_info.Service_Status.Firecode_Space.Bed_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Bed_Capacity);
 
-    current_shelter_circle.bindPopup(
-        "<div class='popup-header' style='background:" + header_color + ";" +
-                                          'border: 3px solid ' + header_color_border +
-                                          "'>" + 
-            "<h3>" +
-                current_shelter_info.Shelter_Contact.friendly_name +
-            "</h3>" +
-        "</div>" +
-        "<div class='occupancy-bar-wrapper>" + 
-            "<div class='occupancy-bar-chairs'>" +
-            "</div>" + 
-            "<div class='occupancy-bar-beds'>" +
-            "</div>" + 
-        "</div>" +
-        "<div class='shelter-details'>" +
-                "<div class='occupancy-wrapper'>" + 
-                    "<div>" + 
-                        "<h5>Sitting Space</h5>" +
-                        "<div class='occupancy-info-wrapper'>" + 
-                            "<div class='occupancy-bar-wrapper'>" +
-                                "<div class='occupancy-bar' style='width: " + sitting_bar_height + "%'></div>" +
-                            "</div>" +
-                            "<p>" + 
-                                current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
-                                "    " + "/" + "    " + 
-                                current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity + 
-                            "</p>" +
-                        "</div>" +
-                    "</div>" +
-                    "<div>" +
-                    "<h5>Beds</h5>" +
-                    "<div class='occupancy-info-wrapper'>" + 
-                        "<div class='occupancy-bar-wrapper'>" +
-                            "<div class='occupancy-bar' style='width: " + bed_bar_height + "%'></div>" +
-                        "</div>" +
-                        "<p>" +
-                            current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy +
-                            "    " + "/" + "    " +
-                            current_shelter_info.Service_Status.Bed_Space.Bed_Capacity +
-                        "</p>" +
-                        "</div>" +
-                    "</div>" +
-                "</div>" +
-            "<h4>Phone Number / Address</h4>" +
-                "<p>" + 
-                    '<a href="tel:+1' + current_shelter_info.Shelter_Contact.phone_number + '">' +
-                        current_shelter_info.Shelter_Contact.phone_number + 
-                    '</a>' + 
-                    '<p>' +
-                    current_shelter_info.Shelter_Properties.friendly_address +
-                    '</p>' + 
-                "</p>" +
-            "<h4>Populations Served</h4>" +
-                "<p>" + 
-                    display_populations_served(current_shelter_info.Client_Properties) + 
-                "</p>" +
-        "</div>"
-    );
+    const popup = `
+        <div class="popup-header" style="background-color: ${header_color}; border: 3px solid ${header_color_border};">
+            <h3>${current_shelter_info.Shelter_Contact.friendly_name}</h3>
+        </div>
+        <div class="occupancy-bar-wrapper">
+            <div class='occupancy-bar-chairs'></div>
+            <div class='occupancy-bar-beds'></div>
+        </div>
+        <div class='shelter-details'>
+            <div class='occupancy-wrapper'>
+                <div>
+                    <h5>Sitting Space</h5>
+                    <div class='occupancy-info-wrapper'>
+                        <div class='occupancy-bar-wrapper'>
+                            <div class="occupancy-bar" style="width: ${sitting_bar_height}%;"></div>
+                            <p>${current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy} / ${current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity}</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5>Beds</h5>
+                    <div class='occupancy-info-wrapper'>
+                        <div class='occupancy-bar-wrapper'>
+                            <div class="occupancy-bar" style="width: ${bed_bar_height}%;"></div>
+                            <p>${current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy} / ${current_shelter_info.Service_Status.Bed_Space.Bed_Capacity}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4>Phone Number / Address</h4>
+                <p><a href="tel:+1${current_shelter_info.Shelter_Contact.phone_number}">${current_shelter_info.Shelter_Contact.phone_number}</a></p>
+                <p>${current_shelter_info.Shelter_Properties.friendly_address}</p>
+                <h4>Populations Served</h4>
+                <p>${display_populations_served(current_shelter_info.Client_Properties)}</p>
+            </div>
+        </div>
+    `
+
+    current_shelter_circle.bindPopup(popup);
 }
 
 //                       _              _          _      
