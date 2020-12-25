@@ -1,4 +1,6 @@
-body {
+* {
+  box-sizing: border-box;
+  border: 0;
   margin: 0;
   padding: 0; }
 
@@ -78,7 +80,15 @@ body {
         .leaflet-popup-content .shelter-details .occupancy-wrapper .occupancy-bar-wrapper .occupancy-bar {
           width: 100%;
           background-color: white; }
+
 #mapid {
   width: 100vw;
-  height: 100vh;
-}
+  height: 100vh; }
+
+.shelter_circles {
+  width: 20px;
+  height: 20px;
+  background-image: url("icon2.jpg");
+  background-size: 20px 20px; }
+
+/*# sourceMappingURL=styles.css.map */
