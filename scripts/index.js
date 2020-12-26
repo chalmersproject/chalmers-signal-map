@@ -80,13 +80,6 @@ var set_circle_color = function (occupancy, capacity, alpha=1) {
     return "rgb(" + red + "," + green + "," + "0" + "," + alpha + ")";
 }
 //
-// returns percentage of how much capacity of shelter is used
-//
-var convert_to_percentage = function(occupancy, capacity)
-{
-    var percentage_of_capacity = scale(occupancy, 0, capacity, 0, 100);
-}
-//
 // function for sizing circles as map is zoomed in/out
 //
 const scale = (num, in_min, in_max, out_min, out_max) => {
@@ -129,8 +122,9 @@ function display_populations_served(client_properties) {
 function bindPopup(current_shelter_circle) {
     var header_color = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.2);
     var header_color_border = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.6);
-    var sitting_bar_height = convert_to_percentage(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity);
-    var bed_bar_height = convert_to_percentage(current_shelter_info.Service_Status.Firecode_Space.Bed_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Bed_Capacity);
+    var sitting_bar_height = scale(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy,0, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity,0,100);
+    var bed_bar_height = scale(current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy, 0, current_shelter_info.Service_Status.Bed_Space.Bed_Capacity, 0, 100);
+    
 
     current_shelter_circle.bindPopup(
         "<div class='popup-header' style='background:" + header_color + ";" +
@@ -152,7 +146,7 @@ function bindPopup(current_shelter_circle) {
                         "<h5>Sitting Space</h5>" +
                         "<div class='occupancy-info-wrapper'>" + 
                             "<div class='occupancy-bar-wrapper'>" +
-                                "<div class='occupancy-bar' style='width: " + sitting_bar_height + "%'></div>" +
+                                "<div class='occupancy-bar' style='height: " + sitting_bar_height + "%'></div>" +
                             "</div>" +
                             "<p>" + 
                                 current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
@@ -165,7 +159,7 @@ function bindPopup(current_shelter_circle) {
                     "<h5>Beds</h5>" +
                     "<div class='occupancy-info-wrapper'>" + 
                         "<div class='occupancy-bar-wrapper'>" +
-                            "<div class='occupancy-bar' style='width: " + bed_bar_height + "%'></div>" +
+                            "<div class='occupancy-bar' style='height: " + bed_bar_height + "%'></div>" +
                         "</div>" +
                         "<p>" +
                             current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy +
