@@ -336,4 +336,4 @@ function render_shelters(create_shelters) {
 //                                          |_|    
 // pull_data_from_firebase();
 render_shelters(true); //instatiate the shelters
-// var interval = setInterval(function () { render_shelters(false); }, 1000); //update the shelters
+var interval = setInterval(function () { render_shelters(false); }, 1000); //update the shelters
