@@ -102,6 +102,18 @@
                     width: 100%;
                     background-color: white; 
                 }
+            }   
+        }
+        .Populations_Served{
+            display:flex;
+            flex-direction: row;
+            // background-color: white;
+            p{
+                margin: 5px;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: rgba(71, 71, 71, 0.3);
+                color: white;
             }
         }
     }

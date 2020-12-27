@@ -101,17 +101,27 @@ function set_circle_radius(current_shelter_circle) {
 //
 
 //
+// utility to check if string is blank
+//
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+}
+
+//
 // creates string of populations served 
 // for shelter info popup
 //
 function display_populations_served(client_properties) {
     populations_served_string = "";
     for (var key of Object.keys(client_properties)) {
-        if (client_properties[key]) {
-            key_string = key.replace('_', ' ');
-            console.log("key_string: " + key_string);
-            key_string = "<p>" + key_string + "</p>";
-            populations_served_string = populations_served_string + key_string;
+        //
+        // if client properties is undefined, or if it is an empty string, do nothing
+        //
+        // console.log("client_properties[key]: " + client_properties[key]);
+        if ( client_properties[key] ) {
+            key = key.replace('_', ' ');
+            key = "<p>" + key + "</p>";
+            populations_served_string = populations_served_string + key;
         }
     }
     console.log(populations_served_string);
@@ -186,9 +196,9 @@ function bindPopup(current_shelter_circle) {
                     '</p>' + 
                 "</p>" +
             "<h4>Populations Served</h4>" +
-                "<p>" + 
+                "<div class='Populations_Served'>" + 
                     display_populations_served(current_shelter_info.Client_Properties) + 
-                "</p>" +
+                "</div>" + 
         "</div>"
     );
 }
@@ -326,4 +336,4 @@ function render_shelters(create_shelters) {
 //                                          |_|    
 // pull_data_from_firebase();
 render_shelters(true); //instatiate the shelters
-var interval = setInterval(function () { render_shelters(false); }, 1000); //update the shelters
+// var interval = setInterval(function () { render_shelters(false); }, 1000); //update the shelters
