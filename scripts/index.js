@@ -122,6 +122,10 @@ function display_populations_served(client_properties) {
 function bindPopup(current_shelter_circle) {
     var header_color = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.2);
     var header_color_border = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity, 0.6);
+    
+    var sitting_bar_color = set_circle_color(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity);
+    var bed_bar_color = set_circle_color(current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy, current_shelter_info.Service_Status.Bed_Space.Bed_Capacity);
+
     var sitting_bar_height = scale(current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy,0, current_shelter_info.Service_Status.Firecode_Space.Firecode_Capacity,0,100);
     var bed_bar_height = scale(current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy, 0, current_shelter_info.Service_Status.Bed_Space.Bed_Capacity, 0, 100);
     
@@ -146,7 +150,7 @@ function bindPopup(current_shelter_circle) {
                         "<h5>Sitting Space</h5>" +
                         "<div class='occupancy-info-wrapper'>" + 
                             "<div class='occupancy-bar-wrapper'>" +
-                                "<div class='occupancy-bar' style='height: " + sitting_bar_height + "%'></div>" +
+                                "<div class='occupancy-bar' style='height: " + sitting_bar_height + "% ; background-color: " + sitting_bar_color + " '></div>" +
                             "</div>" +
                             "<p>" + 
                                 current_shelter_info.Service_Status.Firecode_Space.Firecode_Occupancy + 
@@ -159,7 +163,7 @@ function bindPopup(current_shelter_circle) {
                     "<h5>Beds</h5>" +
                     "<div class='occupancy-info-wrapper'>" + 
                         "<div class='occupancy-bar-wrapper'>" +
-                            "<div class='occupancy-bar' style='height: " + bed_bar_height + "%'></div>" +
+                            "<div class='occupancy-bar' style='height: " + bed_bar_height + "%; background-color: " + bed_bar_color + "'></div>" +
                         "</div>" +
                         "<p>" +
                             current_shelter_info.Service_Status.Bed_Space.Bed_Occupancy +
