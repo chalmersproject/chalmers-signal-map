@@ -108,10 +108,13 @@ function display_populations_served(client_properties) {
     populations_served_string = "";
     for (var key of Object.keys(client_properties)) {
         if (client_properties[key]) {
-            populations_served_string = populations_served_string + key;
+            key_string = key.replace('_', ' ');
+            console.log("key_string: " + key_string);
+            key_string = "<p>" + key_string + "</p>";
+            populations_served_string = populations_served_string + key_string;
         }
-        populations_served_string = populations_served_string + " ";
     }
+    console.log(populations_served_string);
     return populations_served_string;
 }
 
